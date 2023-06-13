@@ -1,7 +1,9 @@
 NAME		= 	philosophers
-FLAGS		= 	-Wall -Wextra -Werror -g -pthread 
+FLAGS		= 	-Wall -Wextra -Werror -pthread 
+DEBUG_FLAGS =	
 RM			= 	rm -f
 GREEN		= 	\033[0;32m
+BIG		= 	\033[0;1m
 RESET		= 	\033[0m
 CC	=	gcc $(FLAGS)
 RM	=	rm -f				
@@ -9,6 +11,13 @@ RM	=	rm -f
 
 
 SOURCES	=	./main.c \
+			./create_philosophers.c \
+			./ft_atoi.c \
+			./ft_chartod.c \
+			./ft_itoa.c \
+			./init.c \
+			./log.c \
+			./threads.c \
 
 
  
@@ -18,11 +27,12 @@ OBJETS	=	$(SOURCES:.c=.o)
 
 
 all		: $(NAME)
-	@echo -e "$(GREEN)\nCompilation philosophers over\n"
+	@echo "$(GREEN)\nCompilation philosophers over\n$(RESET)"
+	@echo "$(BIG)Les arguments dans l'ordre : \n	number_of_philosophers\n	time_to_die(ms)\n	time_to_eat(ms)\n	time_to_sleep(ms)\n	[number_of_times_each_philosopher_must_eat]$(RESET)"
 
 $(NAME): $(OBJETS)
 	@echo "Création de l'executable $(NAME)"
-	@$(CC) $(FLAGS)-o $@ $^
+	@$(CC) $(FLAGS) -o $@ $^
 
 %.o: %.c
 	@echo "Génération de $@"
