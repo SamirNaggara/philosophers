@@ -20,6 +20,8 @@ SOURCES	=	./main.c \
 			./life.c \
 			./log.c \
 			./threads.c \
+			./timestamp.c \
+			./unlock.c \
 
 
  

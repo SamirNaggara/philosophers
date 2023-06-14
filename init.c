@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:30:02 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/14 01:08:44 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/14 13:27:16 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_data	ft_init(int ac, char **av)
 	data.t_die = ft_atoi(av[2]);
 	data.t_eat = ft_atoi(av[3]);
 	data.t_sleep = ft_atoi(av[4]);
-	data.nb_must_eat = 0;
+	data.nb_must_eat = -1;
 	data.first_philo = NULL;
 	data.e_is_alive = 1;
 	gettimeofday(&(data.start_time), NULL);

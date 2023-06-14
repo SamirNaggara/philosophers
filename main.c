@@ -6,12 +6,18 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 12:43:09 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/14 01:37:05 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/14 14:14:49 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+
+/*
+	Premiere mission Samir...
+	Tout ranger...
+	Courage, ça va te remettre les pieds dans le projet !
+*/
 int	main(int ac, char **av)
 {
 	t_data	data;
@@ -28,21 +34,20 @@ int	main(int ac, char **av)
 		close(data.fd_log);
 		return (0);
 	}
-
-	//printf("Voila le nb philo %d %d % d %d %d\n", data.nb_philo, data.t_die, data.t_eat, data.t_sleep, data.nb_must_eat);
-
 	if (!ft_create_philophers(&data))
 		return (0);
-	
 	ft_create_threads(&data);
-
 	ft_join_threads(&data);
-
-
-	ft_destroy_philosophers(&data);
-	close(data.fd_log);
-	pthread_mutex_destroy(&(data.write_mutex));
-	pthread_mutex_destroy(&(data.alive_mutex));
+	ft_end_program(&data);
 	return (0);
 }
 
+
+int	ft_end_program(t_data *data)
+{
+	ft_destroy_philosophers(data);
+	close(data->fd_log);
+	pthread_mutex_destroy(&(data->write_mutex));
+	pthread_mutex_destroy(&(data->alive_mutex));
+	return (1);
+}

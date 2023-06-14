@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:30:56 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/14 01:58:02 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/14 12:27:29 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,49 +15,51 @@
 int	ft_write_in_log(t_data *data, t_philo *actual_philo, char *msg)
 {
 	char			*id_philo;
-	struct timeval	now;
 	char 			*char_timestamp;
-	long			timestamp;
 
 
 	if (!ft_test_is_alive(data))
 		return (0);
 	pthread_mutex_lock(&(data->write_mutex));
-	gettimeofday(&now, NULL);
-	
-	timestamp = (now.tv_sec - data->start_time.tv_sec) * 1000000;
-	timestamp += now.tv_usec - data->start_time.tv_usec;
-	if (actual_philo->state == 'e')
-		actual_philo->last_eat = timestamp;
-	timestamp /= 1000;
-	char_timestamp = ft_itoa(timestamp);
+	char_timestamp = ft_itoa(ft_get_timestamp_to_display(data));
 	if (!char_timestamp)
-	{
-		pthread_mutex_unlock(&(data->write_mutex));
-		return (0);
-	}
+		return (ft_unlock_write_and_return(data));
 	id_philo = ft_itoa(actual_philo->id);
 	if (!id_philo)
-	{
-		pthread_mutex_unlock(&(data->write_mutex));
-		return (0);
-	}
+		return (ft_unlock_write_and_return(data));
 	if (!ft_test_is_alive(data))
-	{
-		pthread_mutex_unlock(&(data->write_mutex));
-		return (0);
-	}
-	write(data->fd_log, char_timestamp, ft_strlen(char_timestamp));
-	write(data->fd_log, " -> ", 5);
-
-	write(data->fd_log, "Philosophe ", 11);
-	write(data->fd_log, id_philo, ft_strlen(id_philo) + 1);
-	write(data->fd_log, " : ", 4);
-	write(data->fd_log, msg, ft_strlen(msg) + 1);
-
-
+		return (ft_unlock_write_and_return(data));
+	ft_write_texte(data, msg, id_philo, char_timestamp);
 	pthread_mutex_unlock(&(data->write_mutex));
 	return (1);
+}
+
+void	ft_write_texte(t_data *data, char *msg, char *id, char *c_ts)
+{
+	write(data->fd_log, c_ts, ft_strlen(c_ts));
+	write(data->fd_log, " philosopher ", 14);
+	write(data->fd_log, id, ft_strlen(id) + 1);
+	write(data->fd_log, " ", 2);
+	write(data->fd_log, msg, ft_strlen(msg) + 1);
+}
+
+int	ft_unlock_write_and_return(t_data *data)
+{
+	pthread_mutex_unlock(&(data->write_mutex));
+	return (0);
+}
+
+long	ft_get_timestamp_to_display(t_data *data)
+{
+	struct timeval	now;
+	long			timestamp;
+
+
+	gettimeofday(&now, NULL);
+	timestamp = (now.tv_sec - data->start_time.tv_sec) * 1000000;
+	timestamp += now.tv_usec - data->start_time.tv_usec;
+	timestamp /= 1000;
+	return (timestamp);
 }
 
 int	ft_open_log(void)
