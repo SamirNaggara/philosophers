@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 12:43:09 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/13 14:25:46 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/14 01:37:05 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av)
 	ft_destroy_philosophers(&data);
 	close(data.fd_log);
 	pthread_mutex_destroy(&(data.write_mutex));
+	pthread_mutex_destroy(&(data.alive_mutex));
 	return (0);
 }
 

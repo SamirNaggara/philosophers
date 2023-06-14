@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:15:57 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/13 15:05:12 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:02:27 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ typedef struct s_data
 	pthread_mutex_t	write_mutex;
 	struct timeval	start_time;
 	long			start_ts;
+	int				e_is_alive;
+	pthread_mutex_t	alive_mutex;
+
 }	t_data;
 
 
@@ -84,9 +87,10 @@ void	*ft_philo_thread(void *dat);
 char	*ft_itoa(long n);
 char	*ft_initialise_result(long *number, size_t *i, size_t len);
 void	*ft_memset(void *s, int c, size_t n);
-int	ft_start_life(t_philo *philo);
+int	ft_life(t_philo *philo);
 int	ft_go_eat(t_philo *philo);
 int	ft_go_sleep(t_philo *philo);
 int	ft_they_are_eating(t_philo *philo);
 int	ft_am_i_dead(t_data *data, t_philo *philo);
+int	ft_test_is_alive(t_data *data);
 #endif

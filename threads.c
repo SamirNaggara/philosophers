@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:32:15 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/13 15:07:24 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/14 02:05:41 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,28 @@ int	ft_create_threads(t_data *data)
 			first_lap = 0;
 		ft_create_one_thread(browse);
 		browse = browse->right;
+
 	}
+	
 	return (1);
 }
 
+/*
+	Ta mission si tu l'acceptes :
+
+	Ici il y a une fonction fet_get now ts, pour avoir le timestamp de maintenant maintenant.
+	On demande souvent ça, donc faut le mettre en fonction et remplacer aussi ailleurs.
+	Puis la on va pouvoir au debut du thread mettre le temps de départ comme dernier moment ou ils ont mangé.
+	Ca m'amene une question...
+	Ce qui nous interesse au fond, c'est pas l'heure ou a commencé leur dernier repas, mais plutot celui ou ils l'ont terminé non ?
+	Je te laisse checker ça, je vais dormir je suis épuisé.
+	Travaille bien
+*/
 int	ft_create_one_thread(t_philo *philo)
 {
 	pthread_t	thread;	
 
+	philo->last_eat = ft_get_now_ts();
 	pthread_create(&thread, NULL, ft_philo_thread, philo);
 	philo->thread = thread;
 	return (1);
@@ -68,81 +82,26 @@ int	ft_create_one_thread(t_philo *philo)
 
 void	*ft_philo_thread(void *philo)
 {
-	t_data 	*data;
-	t_philo	*actual_philo;
-	pthread_t tid;
-	
-	tid = pthread_self();
-	(void)tid;
+	t_philo *actual_philo;
+	t_data	*data;
+
 	actual_philo = (t_philo *)philo;
 	data = (t_data *)actual_philo->data;
-	ft_write_in_log(data, actual_philo, "Le philosophe entre dans la piece\n");
-	ft_start_life(philo);
+	if (!ft_test_is_alive(data))
+		return (0);
+	while (actual_philo->alive)
+	{
+		if (!ft_go_eat(actual_philo))
+			return (NULL);
+		if (!ft_go_sleep(actual_philo))
+			return (NULL);
+	}
 	return (NULL);
 }
 
-int	ft_start_life(t_philo *philo)
-{
-	while (philo->alive)
-	{
-		pthread_mutex_lock(&(philo->fork_mutex));
-		ft_go_eat(philo);
-		pthread_mutex_unlock(&(philo->fork_mutex));
-		ft_go_sleep(philo);
-	}
-	return (1);
 
-}
 
-int	ft_go_eat(t_philo *philo)
-{
-	t_data	*data;
 
-	data = philo->data;
-	while (ft_they_are_eating(philo))
-		ft_am_i_dead(data, philo);
-	pthread_mutex_lock(&(philo->right->fork_mutex));
-	philo->state = 'e';
-	ft_write_in_log(data, philo, "Je mange !\n");
-	usleep(data->t_eat * 1000);
-	philo->state = 's';
-	pthread_mutex_unlock(&(philo->right->fork_mutex));
-	return (1);
-}
 
-int	ft_am_i_dead(t_data *data, t_philo *philo)
-{
-	long			now_ts;
-	struct timeval	now;
 
-	gettimeofday(&now, NULL);
-	now_ts = (now.tv_sec - data->start_time.tv_sec) * 1000000;
-	now_ts += now.tv_usec - data->start_time.tv_usec;
 
-	if (data->start_ts - philo->last_eat > data->t_die)
-		return (1);
-	return (0);
-
-}
-
-int	ft_they_are_eating(t_philo *philo)
-{
-	if (philo->right->state == 'e')
-		return (1);
-	if (philo->left->state == 'e')
-		return (1);
-	return (0);
-}
-
-int	ft_go_sleep(t_philo *philo)
-{
-	t_data	*data;
-
-	data = philo->data;
-	ft_write_in_log(data, philo, "Je dors !\n");
-	usleep(data->t_sleep * 1000);
-	philo->state = 't';
-	ft_write_in_log(data, philo, "J'ai bien dormi ! Maintenant je pense\n");
-	return (1);
-	
-}

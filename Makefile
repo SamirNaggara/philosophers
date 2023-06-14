@@ -12,10 +12,12 @@ RM	=	rm -f
 
 SOURCES	=	./main.c \
 			./create_philosophers.c \
+			./dead.c \
 			./ft_atoi.c \
 			./ft_chartod.c \
 			./ft_itoa.c \
 			./init.c \
+			./life.c \
 			./log.c \
 			./threads.c \
 
@@ -36,7 +38,7 @@ $(NAME): $(OBJETS)
 
 %.o: %.c
 	@echo "Génération de $@"
-	$(CC) $(FLAGS) -o $@ -c $< 
+	@$(CC) $(FLAGS) -o $@ -c $< 
 
 
 
