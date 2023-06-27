@@ -6,12 +6,17 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:31:38 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/14 13:22:41 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:17:26 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+/*
+	On créé tout les philosophes en fonction de nb_philo
+	Si on arrive pas à en creer un, on détruit tout et on renvoie 0
+	Si on a reussi on renvoie 1
+*/
 int	ft_create_philophers(t_data *data)
 {
 	int	i;
@@ -20,19 +25,22 @@ int	ft_create_philophers(t_data *data)
 	while (i <= data->nb_philo)
 	{
 		if (!ft_append_philosopher(data, i++))
-		{
-			ft_destroy_philosophers(data);
-			return (0);
-		}
+			return (ft_destroy_philosophers(data));
 	}
 	return (1);
 }
 
-void	ft_destroy_philosophers(t_data *data)
+/*
+	Cette fonction détruit tout les philosophe.
+	Pour ça, il boucle dans le philosophe et supprime toujours le dernier.
+	Quand il n'y a plus de philophe, il s'arrete et renvoie 0
+*/
+int	ft_destroy_philosophers(t_data *data)
 {
 	t_philo	*tmp;
+
 	if (!data->first_philo)
-		return ;
+		return (0);
 	while (data->first_philo != data->first_philo->left)
 	{
 		tmp = data->first_philo->left->left;
@@ -43,9 +51,12 @@ void	ft_destroy_philosophers(t_data *data)
 		data->first_philo->left = tmp;
 	}
 	free(data->first_philo);
-
+	return (0);
 }
 
+/*
+	Ajoute un nouveau philosophe dans la liste chainée
+*/
 int	ft_append_philosopher(t_data *data, int i)
 {
 	t_philo	*new;
@@ -82,7 +93,6 @@ t_philo	*ft_create_one_philo(t_data *data)
 	pthread_mutex_lock(&(new->nb_eat_mutex));
 	new->nb_eat = 0;
 	pthread_mutex_unlock(&(new->nb_eat_mutex));
-
 	return (new);
 }
 

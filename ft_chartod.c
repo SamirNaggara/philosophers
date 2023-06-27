@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:29:34 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/13 12:40:52 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:21:59 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 /*
 	Tranforme un char en double
-	
+	Useless dans le programme, au debut je pensais
+	qu'on devait rentrer des nombres à virgule
+	dans les arguments
 */
 double	ft_chartod(char *s)
 {
@@ -33,11 +35,11 @@ double	ft_chartod(char *s)
 	while (*(dec_char++) == '0')
 		nb_dec++;
 	return ((double)ent + (double)dec / (double)(ft_power(10, nb_dec)));
-	
 }
+
 int	ft_strlen_nb(int nb)
 {
-	int len;
+	int	len;
 
 	len = 1;
 	while (nb / (ft_power(10, len)) != 0)

@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:30:56 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/14 12:27:29 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:20:36 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	ft_write_in_log(t_data *data, t_philo *actual_philo, char *msg)
 {
-	char			*id_philo;
-	char 			*char_timestamp;
-
+	char	*id_philo;
+	char	*char_timestamp;
 
 	if (!ft_test_is_alive(data))
 		return (0);
@@ -37,10 +36,10 @@ int	ft_write_in_log(t_data *data, t_philo *actual_philo, char *msg)
 void	ft_write_texte(t_data *data, char *msg, char *id, char *c_ts)
 {
 	write(data->fd_log, c_ts, ft_strlen(c_ts));
-	write(data->fd_log, " philosopher ", 14);
-	write(data->fd_log, id, ft_strlen(id) + 1);
-	write(data->fd_log, " ", 2);
-	write(data->fd_log, msg, ft_strlen(msg) + 1);
+	write(data->fd_log, " philosopher ", 13);
+	write(data->fd_log, id, ft_strlen(id));
+	write(data->fd_log, " ", 1);
+	write(data->fd_log, msg, ft_strlen(msg));
 }
 
 int	ft_unlock_write_and_return(t_data *data)
@@ -54,20 +53,9 @@ long	ft_get_timestamp_to_display(t_data *data)
 	struct timeval	now;
 	long			timestamp;
 
-
 	gettimeofday(&now, NULL);
 	timestamp = (now.tv_sec - data->start_time.tv_sec) * 1000000;
 	timestamp += now.tv_usec - data->start_time.tv_usec;
 	timestamp /= 1000;
 	return (timestamp);
-}
-
-int	ft_open_log(void)
-{
-	int	fd;
-
-	fd = open("log.txt", O_WRONLY | O_CREAT | O_TRUNC);
-	if (fd == -1)
-		printf(E_LOG);
-	return (fd);
 }

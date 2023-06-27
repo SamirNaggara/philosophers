@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 00:22:23 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/14 13:58:50 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:19:31 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,14 @@
 /*
 	Si moi j'suis mort, je retourne 0 et un message d'erreur
 	Si quelqu'un d'autre, je retourne juste 0
+	Si je ne peux pas ecrire, je suis mort
+	Puis je dis a tout le monde que je suis mort
 */
 int	ft_am_i_dead(t_data *data, t_philo *philo)
 {
-	long			now_ts;
-
 	if (!ft_test_is_alive(data))
-		return (0);
-	now_ts = ft_get_now_ts();
-	if (now_ts - philo->last_eat > (long)(data->t_die * 1000))
+		return (1);
+	if (ft_get_now_ts() > philo->last_eat + (long)(data->t_die * 1000))
 	{
 		if (!ft_write_in_log(data, philo, L_DIE))
 			return (1);
@@ -31,7 +30,6 @@ int	ft_am_i_dead(t_data *data, t_philo *philo)
 		return (1);
 	}
 	return (0);
-
 }
 
 int	ft_test_is_alive(t_data *data)
@@ -50,13 +48,13 @@ void	ft_change_is_alive(t_data *data, int alive)
 	data->e_is_alive = alive;
 	pthread_mutex_unlock(&(data->alive_mutex));
 }
-
 /*
 	Renvoie 1 si tout le monde a assez mangé
 	En disant que quelqu'un est mort
 	Pour pas que ça continue
 */
-int	ft_finish_eating(t_data *data)
+
+int	ft_all_finish_eating(t_data *data)
 {
 	t_philo	*browse;
 	int		first_lap;
@@ -73,7 +71,7 @@ int	ft_finish_eating(t_data *data)
 			return (0);
 		browse = browse->right;
 	}
-	write(data->fd_log, L_FINISH, ft_strlen(L_FINISH));
+	ft_write_in_log(data, data->first_philo, L_FINISH);
 	ft_change_is_alive(data, 0);
 	return (1);
 }

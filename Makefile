@@ -6,7 +6,8 @@ GREEN		= 	\033[0;32m
 BIG		= 	\033[0;1m
 RESET		= 	\033[0m
 CC	=	gcc $(FLAGS)
-RM	=	rm -f				
+RM	=	rm -f
+LOG = log.txt	
 
 
 
@@ -19,9 +20,11 @@ SOURCES	=	./main.c \
 			./init.c \
 			./life.c \
 			./log.c \
+			./mutex.c \
 			./threads.c \
 			./timestamp.c \
 			./unlock.c \
+			./end.c \
 
 
  
@@ -32,7 +35,7 @@ OBJETS	=	$(SOURCES:.c=.o)
 
 all		: $(NAME)
 	@echo "$(GREEN)\nCompilation philosophers over\n$(RESET)"
-	@echo "$(BIG)Les arguments dans l'ordre : \n	number_of_philosophers\n	time_to_die(ms)\n	time_to_eat(ms)\n	time_to_sleep(ms)\n	[number_of_times_each_philosopher_must_eat]$(RESET)"
+	@echo "$(BIG)Tu peux maintenant compiler ./philosophers avec les arguments dans l'ordre : \n	number_of_philosophers\n	time_to_die(ms)\n	time_to_eat(ms)\n	time_to_sleep(ms)\n	[number_of_times_each_philosopher_must_eat]\n\nExemple simple : ./philosophers 7 4000 2000 2000 1\n\nLorsque le programme est terminé, les logs sont disponibles dans log.txt$(RESET)"
 
 $(NAME): $(OBJETS)
 	@echo "Création de l'executable $(NAME)"
@@ -53,6 +56,8 @@ clean	:
 fclean	:	clean
 	@echo "Suppression de $(NAME)"
 	@$(RM) $(NAME)
+	@echo "Suppression du fichier de log"
+	@$(RM) $(LOG)
 	@echo "Suppression de a.out au cas ou"
 	@$(RM) a.out
 	@echo "\n$(GREEN)Tout les fichiers ont bien été effacés$(RESET)\n"
