@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 00:21:13 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/27 22:19:05 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/28 13:44:21 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ int	ft_take_forks(t_data *data, t_philo *philo)
 
 	status = 1;
 	pthread_mutex_lock(&(philo->fork_mutex));
-	if (!ft_write_in_log(data, philo, L_FORK))
-		status = 0;
-	pthread_mutex_unlock(&(philo->fork_mutex));
 	pthread_mutex_lock(&(philo->right->fork_mutex));
 	if (!ft_write_in_log(data, philo, L_FORK))
 		status = 0;
+	if (!ft_write_in_log(data, philo, L_FORK))
+		status = 0;
+	pthread_mutex_unlock(&(philo->fork_mutex));
 	pthread_mutex_unlock(&(philo->right->fork_mutex));
 	return (status);
 }
@@ -100,7 +100,7 @@ int	ft_go_sleep(t_philo *philo)
 
 int	ft_still_sleeping(t_data *data, t_philo *philo)
 {
-	int	start_sleep;
+	long	start_sleep;
 
 	start_sleep = ft_get_now_ts();
 	while (!ft_am_i_dead(data, philo) && start_sleep

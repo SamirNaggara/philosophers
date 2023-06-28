@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:30:02 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/27 22:20:15 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/28 13:41:59 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_data	ft_init(int ac, char **av)
 
 	if (ac < 5)
 		return (ft_not_enough_args(data));
+	if (!ft_verify_args(ac, av))
+		return (ft_error_args(data));
 	ft_fill_data(&data, ac, av);
 	ft_set_initial_time(&data);
 	data.fd_log = ft_open_log();
@@ -36,7 +38,7 @@ int	ft_open_log(void)
 {
 	int	fd;
 
-	fd = open("log.txt", O_WRONLY | O_CREAT | O_TRUNC);
+	fd = open("log.txt", O_WRONLY | O_CREAT | O_TRUNC, 0655);
 	if (fd == -1)
 		printf(E_LOG);
 	return (fd);
@@ -68,11 +70,4 @@ void	ft_fill_data(t_data *data, int ac, char **av)
 	data->nb_must_eat = -1;
 	if (ac == 6)
 		data->nb_must_eat = ft_atoi(av[5]);
-}
-
-t_data	ft_not_enough_args(t_data data)
-{
-	printf(E_NB_ARGS);
-	data.nb_philo = -1;
-	return (data);
 }

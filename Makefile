@@ -25,6 +25,7 @@ SOURCES	=	./main.c \
 			./timestamp.c \
 			./unlock.c \
 			./end.c \
+			./verify_args.c \
 
 
  

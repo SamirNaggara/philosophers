@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:30:56 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/27 22:20:36 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:45:22 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_write_in_log(t_data *data, t_philo *actual_philo, char *msg)
 void	ft_write_texte(t_data *data, char *msg, char *id, char *c_ts)
 {
 	write(data->fd_log, c_ts, ft_strlen(c_ts));
-	write(data->fd_log, " philosopher ", 13);
+	write(data->fd_log, "ms philosopher ", 15);
 	write(data->fd_log, id, ft_strlen(id));
 	write(data->fd_log, " ", 1);
 	write(data->fd_log, msg, ft_strlen(msg));
