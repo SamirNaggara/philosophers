@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:30:02 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/28 13:41:59 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:52:19 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_data	ft_init(int ac, char **av)
 		return (ft_error_args(data));
 	ft_fill_data(&data, ac, av);
 	ft_set_initial_time(&data);
-	data.fd_log = ft_open_log();
+	data.fd_log = 1;
 	pthread_mutex_init(&(data.write_mutex), NULL);
 	pthread_mutex_init(&(data.alive_mutex), NULL);
 	return (data);
