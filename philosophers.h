@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:15:57 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/28 13:43:50 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:28:18 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,25 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
-# define E_NB_ARGS "Il n'y a pas assez d'arguments !!\n"
-# define E_NO_PHIL "Il faut au moins 1 philosophe... !!\n"
+# define E_NB_ARGS "Not enough args !!\n"
+# define E_NO_PHIL "Is a philosopher a philosopher if their is \
+no philosopher ? !!\n"
 # define E_LOG "Il y a eu un problème avec l'ouverture du fichier de log\n"
-# define E_ARGS "Arguments non valide\n"
+# define E_ARGS "Args are not valid, decided the laws of nature\n"
 # define L_FORK "has taken a fork\n"
 # define L_EAT "\033[1;32mis eating\033[0m \n"
 # define L_SLEEP "is sleeping\n"
 # define L_THINK "is thiking\n"
 # define L_DIE "died\n"
-# define L_FINISH "close the debat, nobody is hungry anymore\n"
+# define L_FINISH "stoped everything. What is the point of eating anyway ?\n"
 
 typedef struct s_philo
 {
 	int				id;
-	int				fork;
 	pthread_t		thread;
 	struct s_philo	*left;
 	struct s_philo	*right;
 	struct s_data	*data;
-	pthread_mutex_t	fork_mutex;
 	int				alive;
 	char			state;
 	pthread_mutex_t	state_mutex;
@@ -107,12 +106,10 @@ int		ft_first_action(t_data *data, t_philo *philo);
 int		ft_increment_nb_eat(t_philo *philo);
 int		ft_check_nb_eat(t_philo *philo);
 int		ft_all_finish_eating(t_data *data);
-int		ft_unlock_fork_and_return(t_philo *philo);
 t_data	ft_not_enough_args(t_data data);
 void	ft_fill_data(t_data *data, int ac, char **av);
 void	ft_set_initial_time(t_data *data);
-int		ft_bad_init(t_data *data);
-int		ft_error_no_phil(t_data *data);
+int		ft_error_no_phil(void);
 int		ft_take_forks(t_data *data, t_philo *philo);
 int		ft_still_sleeping(t_data *data, t_philo *philo);
 int		ft_verify_args(int ac, char **av);

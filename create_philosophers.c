@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:31:38 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/27 22:17:26 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:27:39 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	ft_destroy_philosophers(t_data *data)
 	while (data->first_philo != data->first_philo->left)
 	{
 		tmp = data->first_philo->left->left;
-		pthread_mutex_destroy(&(data->first_philo->left->fork_mutex));
 		pthread_mutex_destroy(&(data->first_philo->left->state_mutex));
 		pthread_mutex_destroy(&(data->first_philo->left->nb_eat_mutex));
 		free(data->first_philo->left);
@@ -81,11 +80,9 @@ t_philo	*ft_create_one_philo(t_data *data)
 	new = (t_philo *)malloc(sizeof(t_philo));
 	if (!new)
 		return (0);
-	pthread_mutex_init(&(new->fork_mutex), NULL);
 	pthread_mutex_init(&(new->state_mutex), NULL);
 	pthread_mutex_init(&(new->nb_eat_mutex), NULL);
 	new->id = 1;
-	new->fork = 1;
 	new->alive = 1;
 	new->data = data;
 	ft_change_state(new, 't');

@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 00:21:13 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/28 13:44:21 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:28:18 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_go_eat(t_philo *philo)
 
 	data = philo->data;
 	while (!ft_am_i_dead(data, philo) && ft_they_are_eating(philo))
-		;
+		usleep(100);
 	if (ft_am_i_dead(data, philo))
 		return (0);
 	ft_change_state(philo, 'e');
@@ -52,14 +52,10 @@ int	ft_take_forks(t_data *data, t_philo *philo)
 	int	status;
 
 	status = 1;
-	pthread_mutex_lock(&(philo->fork_mutex));
-	pthread_mutex_lock(&(philo->right->fork_mutex));
 	if (!ft_write_in_log(data, philo, L_FORK))
 		status = 0;
 	if (!ft_write_in_log(data, philo, L_FORK))
 		status = 0;
-	pthread_mutex_unlock(&(philo->fork_mutex));
-	pthread_mutex_unlock(&(philo->right->fork_mutex));
 	return (status);
 }
 /*

@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:21:43 by snaggara          #+#    #+#             */
-/*   Updated: 2023/08/22 12:11:28 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:15:30 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
 	Si y'a pas de philosophe, ou un nombre negatif
 */
-int	ft_error_no_phil(t_data *data)
+int	ft_error_no_phil(void)
 {
 	printf(E_NO_PHIL);
 	return (0);
@@ -27,10 +27,6 @@ int	ft_error_no_phil(t_data *data)
 	Dans ce cas, on ferme le fd et on retourne 0
 	Pas grave de close fd_log si il est egal a -1
 */
-int	ft_bad_init(t_data *data)
-{
-	return (0);
-}
 
 int	ft_end_program(t_data *data)
 {

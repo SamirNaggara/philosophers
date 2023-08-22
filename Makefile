@@ -23,7 +23,6 @@ SOURCES	=	./main.c \
 			./mutex.c \
 			./threads.c \
 			./timestamp.c \
-			./unlock.c \
 			./end.c \
 			./verify_args.c \
 
