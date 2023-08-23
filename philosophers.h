@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 18:15:57 by snaggara          #+#    #+#             */
-/*   Updated: 2023/08/22 14:28:18 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:37:56 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef struct s_philo
 	struct s_philo	*right;
 	struct s_data	*data;
 	int				alive;
-	char			state;
-	pthread_mutex_t	state_mutex;
+	char			fork;
+	pthread_mutex_t	fork_mutex;
 	long			last_eat;
 	int				nb_eat;
 	pthread_mutex_t	nb_eat_mutex;
@@ -96,8 +96,8 @@ int		ft_am_i_dead(t_data *data, t_philo *philo);
 int		ft_test_is_alive(t_data *data);
 void	ft_change_is_alive(t_data *data, int alive);
 long	ft_get_now_ts(void);
-int		ft_change_state(t_philo *philo, char c);
-char	ft_check_state(t_philo *philo);
+int		ft_change_fork(t_philo *philo, char c);
+char	ft_check_fork(t_philo *philo);
 int		ft_end_program(t_data *data);
 long	ft_get_timestamp_to_display(t_data *data);
 int		ft_unlock_write_and_return(t_data *data);

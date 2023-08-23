@@ -6,27 +6,27 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 22:12:10 by snaggara          #+#    #+#             */
-/*   Updated: 2023/06/27 22:21:37 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:37:56 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_change_state(t_philo *philo, char c)
+int	ft_change_fork(t_philo *philo, char c)
 {
-	pthread_mutex_lock(&(philo->state_mutex));
-	philo->state = c;
-	pthread_mutex_unlock(&(philo->state_mutex));
+	pthread_mutex_lock(&(philo->fork_mutex));
+	philo->fork = c;
+	pthread_mutex_unlock(&(philo->fork_mutex));
 	return (1);
 }
 
-char	ft_check_state(t_philo *philo)
+char	ft_check_fork(t_philo *philo)
 {
 	char	letter;
 
-	pthread_mutex_lock(&(philo->state_mutex));
-	letter = philo->state;
-	pthread_mutex_unlock(&(philo->state_mutex));
+	pthread_mutex_lock(&(philo->fork_mutex));
+	letter = philo->fork;
+	pthread_mutex_unlock(&(philo->fork_mutex));
 	return (letter);
 }
 /*

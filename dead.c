@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 00:22:23 by snaggara          #+#    #+#             */
-/*   Updated: 2023/08/22 13:12:46 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:32:18 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_all_finish_eating(t_data *data)
 			first_lap = 0;
 		if (ft_check_nb_eat(browse) < data->nb_must_eat)
 			return (0);
+		usleep(10);
 		browse = browse->right;
 	}
 	ft_write_in_log(data, data->first_philo, L_FINISH);
