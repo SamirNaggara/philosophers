@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 12:32:15 by snaggara          #+#    #+#             */
-/*   Updated: 2023/08/23 19:01:50 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:00:12 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,5 @@ int	ft_first_action(t_data *data, t_philo *philo)
 		ft_write_in_log(data, philo, L_THINK);
 		usleep(data->t_eat * 2);
 	}
-
 	return (1);
 }

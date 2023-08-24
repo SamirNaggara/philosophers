@@ -6,7 +6,7 @@
 /*   By: snaggara <snaggara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 00:21:13 by snaggara          #+#    #+#             */
-/*   Updated: 2023/08/23 19:34:17 by snaggara         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:00:03 by snaggara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_go_eat(t_philo *philo)
 
 	data = philo->data;
 	while (!ft_am_i_dead(data, philo) && ft_they_are_eating(philo))
-		usleep(10);
+		usleep(50);
 	if (ft_am_i_dead(data, philo))
 		return (0);
 	ft_change_fork(philo, 'e');
@@ -74,26 +74,18 @@ int	ft_they_are_eating(t_philo *philo)
 	if (ft_check_fork(philo->left) == 'e')
 		return (1);
 	if (ft_get_now_ts() < philo->data->start_ts
-		+ 2 * (long)(philo->data->t_eat * 1000))
+		+ (long)(philo->data->t_eat * 1000)
+		+ (long)(philo->data->t_sleep * 1000))
 		return (0);
-	if (ft_get_now_ts() - (long)(philo->last_eat) <
-			2 * (long)(philo->data->t_eat * 1000) + 10000)
-	{
-		// printf("Philo %d : Je mange pas, je laisse la place", philo->id);
-		// printf("Je retourne 1\nD : %ld\n2 * last eat %ld\n", ft_get_now_ts() - (long)(philo->last_eat), 
-		// 	2 * (long)(philo->data->t_eat * 1000) + 10000);
-		//ft_write_in_log(philo->data, philo, "Je rentre dans le truc\n");
+	if (ft_get_now_ts() - (long)(philo->last_eat)
+			< (long)(philo->data->t_eat * 1000)
+			+ (long)(philo->data->t_eat * 1000)
+			+ 1000)
 		return (1);
-	}
-	// printf("Je retourne 0\nD : %ld\n2 * last eat %ld\n", ft_get_now_ts() - (long)(philo->last_eat), 
-	// 2 * (long)(philo->data->t_eat * 1000 + 200));
-
 	return (0);
 }
 
 //now - ls_eat > 2 * (long)(philo->data->t_eat * 1000000)
-
-
 
 int	ft_go_sleep(t_philo *philo)
 {
@@ -103,7 +95,6 @@ int	ft_go_sleep(t_philo *philo)
 	if (!ft_still_sleeping(data, philo))
 		return (0);
 	ft_change_fork(philo, 't');
-	//usleep(data->t_eat / 3); // A supprimer je pense
 	ft_write_in_log(data, philo, L_THINK);
 	return (1);
 }
@@ -120,7 +111,7 @@ int	ft_still_sleeping(t_data *data, t_philo *philo)
 	start_sleep = ft_get_now_ts();
 	while (!ft_am_i_dead(data, philo) && start_sleep
 		+ data->t_sleep * 1000 > ft_get_now_ts())
-		usleep(10);
+		usleep(50);
 	if (ft_am_i_dead(data, philo))
 		return (0);
 	return (1);
